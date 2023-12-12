@@ -36,16 +36,16 @@ const Accordion = ({data}) => {
   return (
     <div className='accordion'>
       {data.map((el, i) => 
-        <AccordionItem currOpen={currOpen} onOpen={setCurrOpen} title={el.title} text={el.text} num={i} key={i} />
+        <AccordionItem currOpen={currOpen} onOpen={setCurrOpen} title={el.title} num={i} key={i}> {el.text} </AccordionItem>
       )}
     </div>
   );
 }
 
-const AccordionItem = ({num, title, text, currOpen, onOpen}) => {
+const AccordionItem = ({num, title, currOpen, onOpen, children}) => {
   const isOpen = num === currOpen;
   const handleToggle = () => {
-    onOpen(num);
+    onOpen(isOpen ? null : num);
 
   }
 
@@ -57,7 +57,7 @@ const AccordionItem = ({num, title, text, currOpen, onOpen}) => {
 
 
       { 
-        isOpen && <div className='content-box'>{text}</div>
+        isOpen && <div className='content-box'>{children}</div>
       }
     </div>
   );
