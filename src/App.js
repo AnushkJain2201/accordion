@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import './styles.css';
 
 const faqs = [
@@ -22,17 +23,40 @@ const faqs = [
 function App() {
   return (
     <div>
-      <Accordion />
+      <Accordion data={faqs}/>
     </div>
   );
 }
 
 export default App;
 
-const Accordion = () => {
+const Accordion = ({data}) => {
   return (
-    <div>
-      <h1>Hello React!</h1>
+    <div className='accordion'>
+      {data.map((el, i) => 
+        <AccordionItem title={el.title} text={el.text} num={i} key={i} />
+      )}
+    </div>
+  );
+}
+
+const AccordionItem = ({num, title, text}) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleToggle = () => {
+    setIsOpen((isOpen) => !isOpen);
+  }
+
+  return(
+    <div className={`item ${isOpen ? "open" : ""}`} onClick={handleToggle}>
+      <p className='number'>{num < 9 ? `0${num + 1}` : num + 1}</p>
+      <p className='title'>{title}</p>
+      <p className='icon'>{isOpen ? "-" : "+"}</p>
+
+
+      { 
+        isOpen && <div className='content-box'>{text}</div>
+      }
     </div>
   );
 }
